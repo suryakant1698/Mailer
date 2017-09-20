@@ -36,8 +36,10 @@ public partial class login : System.Web.UI.Page
             string Password = passcom.ExecuteScalar().ToString();
             if (Password ==encryption(tbxPassword.Text.Trim()))
             {
-
-                Session["UserLoggedIn"] = tbxUsername.Text;
+                SqlCommand getID = new SqlCommand("select ID from tblUsers where username='"+tbxUsername.Text+"' or email='"+tbxUsername.Text+"'",con);
+                string ID = getID.ExecuteScalar().ToString();
+                Session["ID"] = ID;
+                Session["Username"] = tbxUsername.Text;
                 Response.Redirect("userHomePage.aspx");
             }
             else Response.Write("incorrect username or password");

@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td> <asp:Label runat="server" ID="lblRecipientCategory" Text="Input Cattegory ID" ></asp:Label> </td>
-                <td><asp:TextBox runat="server" db="tbxRecipientCategory"></asp:TextBox></td>
+                <td><asp:TextBox runat="server" ID="tbxRecipientCategory"></asp:TextBox></td>
             </tr>
             <tr>
                <td><asp:Button runat="server" Text="Submit" ID="RecipientAdder" /> </td>
