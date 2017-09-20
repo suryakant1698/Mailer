@@ -39,7 +39,7 @@ public partial class login : System.Web.UI.Page
                 SqlCommand getID = new SqlCommand("select ID from tblUsers where username='"+tbxUsername.Text+"' or email='"+tbxUsername.Text+"'",con);
                 string ID = getID.ExecuteScalar().ToString();
                 Session["ID"] = ID;
-                Session["Username"] = tbxUsername.Text;
+                Session["username"] = tbxUsername.Text;
                 Response.Redirect("userHomePage.aspx");
             }
             else Response.Write("incorrect username or password");
