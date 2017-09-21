@@ -15,13 +15,13 @@
 </head>
    
 <body>
-    
+    <h1>Register Page</h1>
     <form id="form1" runat="server">
     <div id="mainTable">
      <table style="caption-side:top "> 
         <tr >
             <td><asp:Label runat="server" ID="lblUsername" Text="Username" ></asp:Label></td>
-            <td><asp:TextBox  ID="tbxUsername" runat="server" ></asp:TextBox>
+            <td><asp:TextBox  ID="tbxUsername" runat="server"  ></asp:TextBox>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="tbxUsername" ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator>
                      </td>        
             
@@ -30,7 +30,10 @@
                <td><asp:Label ID="lblEmail" runat="server" Text="Email" ></asp:Label></td>
             <td><asp:TextBox ID="tbxEmail" runat="server" ></asp:TextBox>
                  <asp:RequiredFieldValidator runat="server" ControlToValidate="tbxEmail" ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator> 
-                 </td>
+                
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1"  ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$" runat="server" ControlToValidate="tbxEmail" ErrorMessage="Invalid Email" ForeColor="red"></asp:RegularExpressionValidator>
+                
+            </td>
            </tr>
         <tr>
             <td><asp:Label ID="lblFullName" runat="server" Text="Full Name" ></asp:Label></td>
@@ -47,19 +50,17 @@
         </tr>
         <tr>
             <td><asp:Label runat="server" ID="lblConfirmPassword" Text="Confirm Password" ></asp:Label></td>
-            <td><asp:TextBox id="tbxConfirmPassword" runat="server"  ViewStateMode="Disabled" TextMode="Password" EnableViewState="False"></asp:TextBox>
+            <td><asp:TextBox id="tbxConfirmPassword" runat="server"  ViewStateMode="Disabled" TextMode="Password" ></asp:TextBox>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="tbxConfirmPassword"  ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator>
            </td>
-            <td>   
-           <%--  <asp:Label ID="lblCompareValidator" runat="server" Text=" "></asp:Label>--%>
-                      </td>
-            s
-            <td>&nbsp;</td>
+            <td>    
+            <asp:CompareValidator ID="ConfirmPasswordCmpValidator" runat="server" ControlToCompare="tbxPassword" ControlToValidate="tbxConfirmPassword" ErrorMessage="passwords did not match" ForeColor="red"></asp:CompareValidator> 
+            </td>
+            
     </tr>
-         <tr>
-             <td><asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" /></td>
-         </tr>
-           
+           <tr>
+               <td><asp:Button runat="server" ID="btnSubmit" Text="submit" OnClick="btnSubmit_Click" /></td>
+           </tr>
     </table>
     </div>
     </form>

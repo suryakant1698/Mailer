@@ -1,0 +1,66 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="userLoggedin.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <style>
+   
+.body{
+    width:1000px;
+    background-color:#172f3a;
+    color:white;
+    margin-left:100px;
+    margin-right:100px;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+
+}
+
+.topnav a, .btnLogout {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  
+  font-size: 17px;
+}
+.btnLogout:hover{
+     background-color: #ddd;
+  color: black;
+}
+.topnav a:hover {
+ background-color: #ddd;
+  color: black;
+}
+
+
+    </style>
+    <title></title>
+ 
+</head>
+<body class="body">
+  
+ <form id="form1" runat="server">
+     <div class="topnav">
+  <a class="active" href="userHomePage.aspx">Recipient Settings</a>
+  <a href="">Compose Email</a>
+  <a href="">Sent Emails</a>
+  <a href="">See Recipients List</a>
+   <asp:Button ID="btnLogout" runat="server" Text="Logout" CssClass="btnLogout" backcolor="#333333" BorderWidth="0px" OnClick="btnLogout_Click" />
+</div>
+     <b><asp:Label ID="lblusername" runat="server" Text="welcome" ></asp:Label> </b>
+       <div> 
+        <asp:ContentPlaceHolder id="mainContentPlaceHolder" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+
+  </form>    
+     
+</body>
+</html>

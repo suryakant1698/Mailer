@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="appHomePage.aspx.cs" Inherits="appHomePage" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <style type="text/css">
+    	<style type="text/css">
 		*{
 			background-color: #172f3a;
 		}
@@ -36,23 +36,22 @@
 		.login:hover, .register:hover {background-color: #33383a; }
 		
 		}
-        </style>
+	</style>
     <title></title>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-    <svg  viewBox="0 0 600 600" >
+    <svg viewBox="0 0 600 600">
 	<polygon points="150,50 150,240 450,240 450,50" fill="#eee" />
 <polygon points="150,50 300,180 450,50" fill="grey" /></svg>
 	
      <div class="box">
+     	<asp:Button CssClass="login" runat="server" ID="btnLogin" Text="Login" OnClick="btnLogin_Click" />
+         <asp:Button CssClass="register" Text="Register" runat="server" ID="btnRegister" OnClick="btnRegister_Click" />
      	
-         <asp:Button ID="btnLogin" runat="server"  Text="Login" CssClass="login" OnClick="btnLogin_Click"/>.
-     	
-         <asp:Button CssClass="register" ID="btnRegister" runat="server" Text="Register" OnClick="btnRegister_Click" />
-      	
      </div>
+
     </div>
     </form>
 </body>

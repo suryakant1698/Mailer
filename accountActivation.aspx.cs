@@ -15,7 +15,7 @@ public partial class _Default : System.Web.UI.Page
     {
 
         string newActivationCode=Request.QueryString["activationCode"];
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationSConnectionString"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
             string checkValidSourece = "update tblUsers set Verification=1 where activationCode=@activationCode";
             using (SqlCommand cmd = new SqlCommand(checkValidSourece))
