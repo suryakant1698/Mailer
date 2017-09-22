@@ -18,9 +18,6 @@
                 
             
         </div>
-        <b>
-            <asp:Label ID="lblusername" runat="server" Text="welcome"></asp:Label>
-        </b>
         <div>
             <asp:ContentPlaceHolder ID="mainContentPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
