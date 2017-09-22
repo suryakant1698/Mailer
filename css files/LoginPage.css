@@ -1,0 +1,46 @@
+﻿        @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+     
+.body {
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+
+        #mainBody {
+            width: 200px;
+        }
+
+        .imageContainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        .lbl {
+        }
+
+        .inputArea {
+            margin-left: 360px;
+        }
+
+        .tbx {
+            width: 40%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        img.avatar {
+            border-radius: 50%;
+            height: 200px;
+        }
+
+        .btnLogin {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin-left: 360px;
+            margin-right: 200px;
+            border: none;
+            cursor: pointer;
+        }

@@ -1,46 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Data;
-using System.Net.Mail;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-
 
 public partial class practiceRegister : System.Web.UI.Page
 {
+    private object nager;
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-
         int ID;
-
         string CS = ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString;
         using (SqlConnection con = new SqlConnection(CS))
         {
             //supplying values to the stored procedure which will return -1 or -2 if the username or email has already been used respectively else will store the data in table and retun scope_ID 
-
             SqlCommand cmd = new SqlCommand("spCheckEmailUsername1", con);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@username", tbxUsername.Text);
             cmd.Parameters.AddWithValue("email", tbxEmail.Text);
             cmd.Parameters.AddWithValue("@fullname", tbxFullName.Text);
             cmd.Parameters.AddWithValue("@upassword", encryption(tbxPassword.Text));
-          
             con.Open();
             ID = Convert.ToInt32(cmd.ExecuteScalar());
             string message;
-
             switch (ID)
             {
                 case -1:
@@ -50,29 +45,22 @@ public partial class practiceRegister : System.Web.UI.Page
                     message = "Supplied email address has already been used.";
                     break;
                 default:
-                    message = "Registration successful.\\nUser Id: ";
+                    message = "Registration successful";
                     SendActivationEmail(ID);
                     Response.Redirect("register.aspx");
-
-
-
                     break;
             }
             ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }
-
     }
-
-
     public void SendActivationEmail(int ID)
     {
-        string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        string constr = ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString;
         string activationCode = Guid.NewGuid().ToString();
         using (SqlConnection con = new SqlConnection(constr))//creating a unique activation code  and storing it in db for corresponding user
         {
             using (SqlCommand cmd = new SqlCommand("update tblUsers set activationCode=@ActivationCode  where username='" + tbxUsername.Text + "'"))
             {
-
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {
                     cmd.CommandType = CommandType.Text;
@@ -109,10 +97,8 @@ public partial class practiceRegister : System.Web.UI.Page
         MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
         byte[] encrypt;
         UTF8Encoding encode = new UTF8Encoding();
-
         encrypt = md5.ComputeHash(encode.GetBytes(password));
         StringBuilder encryptdata = new StringBuilder();
-
         for (int i = 0; i < encrypt.Length; i++)
         {
             encryptdata.Append(encrypt[i].ToString());
@@ -123,4 +109,4 @@ public partial class practiceRegister : System.Web.UI.Page
 
 
 
-   
+

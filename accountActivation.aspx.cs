@@ -14,7 +14,7 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        string newActivationCode=Request.QueryString["activationCode"];
+        string newActivationCode = Request.QueryString["activationCode"];
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
             string checkValidSourece = "update tblUsers set Verification=1 where activationCode=@activationCode";
@@ -29,12 +29,10 @@ public partial class _Default : System.Web.UI.Page
                     cmd.ExecuteNonQuery();
                 }
             }
-                 
+
         }
     }
-
-
-protected void redirect(object sender, EventArgs e)
+    protected void redirect(object sender, EventArgs e)
     {
         Response.Redirect("Login.aspx");
     }

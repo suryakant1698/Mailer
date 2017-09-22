@@ -7,38 +7,29 @@ using System.Web.UI.WebControls;
 using System.Net.Mail;
 using System.Data.SqlClient;
 using System.Configuration;
-
 public partial class users : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         //all the checks have been done for the corresponding user only i.e.two users can enter the same recipient's info twice
-        if (Session["username"] != null)
+        if (!IsPostBack)
+        {
+            //adding the data to the drop down list
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
             {
-                
-                if (!IsPostBack)
-            {
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
-                {
-                    string userID = Session["ID"].ToString();
-                    SqlCommand com = new SqlCommand("select categoryName,ID from tblCategory where userID='"+userID+"'",con);
-                    con.Open();
-                    ddlCategoryName.DataSource = com.ExecuteReader();
-                    ddlCategoryName.DataTextField ="categoryName";
-                    ddlCategoryName.DataValueField = "ID";
-                    ddlCategoryName.DataBind();
-                }
+                string userID = Session["ID"].ToString();
+                SqlCommand com = new SqlCommand("select categoryName,ID from tblCategory where userID='" + userID + "'", con);
+                con.Open();
+                ddlCategoryName.DataSource = com.ExecuteReader();
+                ddlCategoryName.DataTextField = "categoryName";
+                ddlCategoryName.DataValueField = "ID";
+                ddlCategoryName.DataBind();
             }
+        }
     }
-        else Response.Redirect("../Login.aspx");//in case someone enters the address of the page
-
-    }
-
-
     protected void btnCategoryAdder_Click(object sender, EventArgs e)
     {
         Page.Validate("Category");
-
         if (!Page.IsValid)
             return;
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
@@ -49,54 +40,47 @@ public partial class users : System.Web.UI.Page
             string ID = Session["ID"].ToString();
             SqlCommand cmd = new SqlCommand("spInsertCategory", con);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@userID",ID);
-            cmd.Parameters.AddWithValue("@categoryName",tbxCategoryName.Text);
+            cmd.Parameters.AddWithValue("@userID", ID);
+            cmd.Parameters.AddWithValue("@categoryName", tbxCategoryName.Text);
             int categoryID = Convert.ToInt32(cmd.ExecuteScalar());
-            switch(categoryID)
+            switch (categoryID)
             {
                 case -1:
                     message = "Category already registered";
                     break;
                 default:
-                    message = "Category AddedSuccesfuly";
-                 
-                    
+                    message = "Category AddedSuccesfuly//n Reload the page to see it's option in recipient adding portion";
                     break;
-
             }
             ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }
-       
-
     }
-
     protected void RecipientAdder_Click(object sender, EventArgs e)
     {
-
+        //adding recipient's information
         Page.Validate("Recipient");
-
         if (!Page.IsValid)
             return;
         string message;
         string ID = Session["ID"].ToString();
-        string CS = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        string CS = ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString;
         using (SqlConnection con = new SqlConnection(CS))
         {
-            con.Open();          
+            con.Open();
             string CategoryID = ddlCategoryName.SelectedItem.Value;
-                SqlCommand checkRecipientEmail = new SqlCommand("select count(*) from tblRecipients where email='"+tbxRecipientEmail.Text+"' and categoryID='"+CategoryID+"' ",con);
-                int unvalidEmail = Convert.ToInt32(checkRecipientEmail.ExecuteScalar().ToString());
-                if (unvalidEmail == 1) message = " you already registered a user with this email names can repeat but emails cant";
-                else
-                {
-                    SqlCommand categoryAdder = new SqlCommand("insert into tblRecipients(name,email,categoryID) values(@name,@email,@categoryID)", con);
-                    categoryAdder.Parameters.AddWithValue("@name", tbxRecipientName.Text);
-                    categoryAdder.Parameters.AddWithValue("@email", tbxRecipientEmail.Text);
-                    categoryAdder.Parameters.AddWithValue("@categoryID",CategoryID);
-                    categoryAdder.ExecuteNonQuery();
-                    message = "recipient added succesfuly";
-                }                     
-                ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
+            SqlCommand checkRecipientEmail = new SqlCommand("select count(*) from tblRecipients where email='" + tbxRecipientEmail.Text + "' and categoryID='" + CategoryID + "' ", con);
+            int unvalidEmail = Convert.ToInt32(checkRecipientEmail.ExecuteScalar().ToString());//ensuring new email of recipient 
+            if (unvalidEmail == 1) message = " you already registered a user with this email names can repeat but emails cant";
+            else
+            {
+                SqlCommand categoryAdder = new SqlCommand("insert into tblRecipients(name,email,categoryID) values(@name,@email,@categoryID)", con);
+                categoryAdder.Parameters.AddWithValue("@name", tbxRecipientName.Text);
+                categoryAdder.Parameters.AddWithValue("@email", tbxRecipientEmail.Text);
+                categoryAdder.Parameters.AddWithValue("@categoryID", CategoryID);
+                categoryAdder.ExecuteNonQuery();
+                message = "recipient added succesfuly";
+            }
+            ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }
     }
 }
