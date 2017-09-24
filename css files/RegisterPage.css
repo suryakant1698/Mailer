@@ -26,8 +26,8 @@
 
         .left {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 4px;
+            left: 5px;
             box-sizing: border-box;
             padding: 40px;
             width: 296px;
@@ -82,6 +82,21 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
                 transition: 0.1s ease;
             }
-        #right {
-            width: 212px;
-        }
+       section{
+           
+
+       }
+       rfv{
+           margin-top:20px;
+       }
+       aside{
+           float:left;
+           position: absolute;
+            top: 118px;
+            left: 495px;
+            box-sizing: border-box;
+            padding: 40px;
+            width: 205px;
+            height: 333px;
+           
+       }
