@@ -20,7 +20,7 @@ public partial class userPages_compose : System.Web.UI.Page
     protected void btnSend_Click(object sender, EventArgs e)
     {
         string message;
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
             con.Open();
             SqlCommand checkEmail = new SqlCommand("select count(*) from tblRecipients where email=@email", con);
@@ -55,6 +55,7 @@ public partial class userPages_compose : System.Web.UI.Page
         {
             mail.Subject = tbxSubject.Text;
             mail.Body = body;
+            mail.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.EnableSsl = true;
