@@ -14,38 +14,59 @@ public partial class userPages_compose : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+            {
+                SqlCommand com = new SqlCommand("select ID,name from tblTemplates", con);
+                con.Open();
+                ddlTemplateSelector.DataSource = com.ExecuteReader();
+                ddlTemplateSelector.DataTextField = "name";
+                ddlTemplateSelector.DataValueField = "ID";
+                ddlTemplateSelector.DataBind();
+            }
+        }
     }
-
     protected void btnSend_Click(object sender, EventArgs e)
     {
         string message;
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
+
             con.Open();
-            SqlCommand checkEmail = new SqlCommand("select count(*) from tblRecipients where email=@email", con);
-            checkEmail.Parameters.AddWithValue("@email", tbxRecipientEmail.Text);
+            string templateID = ddlTemplateSelector.SelectedItem.Value;
+            SqlCommand getTemplatePath = new SqlCommand("select filePath from tblTemplates where ID='" + templateID + "'", con);//fetching template id of the selected item
+            string templatePath = getTemplatePath.ExecuteScalar().ToString();
+            SqlCommand getRecpientID = new SqlCommand("select ID from tblRecipients where email='"+tbxRecipientEmail.Text+"'",con);
+            int recipientID = Convert.ToInt32(getRecpientID.ExecuteScalar().ToString());
+            SqlCommand checkEmail = new SqlCommand("select count(*) from tblRecipients where email='"+tbxRecipientEmail.Text+"'", con);//ensuring email of the recipient is already added
             int temp = Convert.ToInt32(checkEmail.ExecuteScalar().ToString());
+
             if (temp == 1)
             {
-                SqlCommand selectName = new SqlCommand("select name from tblRecipients where email=@email", con);
-                selectName.Parameters.AddWithValue("@email",tbxRecipientEmail.Text);
+                SqlCommand selectName = new SqlCommand("select name from tblRecipients where email='"+tbxRecipientEmail.Text+"'", con);//fetching name from te
                 string RecipientName = selectName.ExecuteScalar().ToString();
-                
+
                 string body = string.Empty;
-                using (StreamReader reader = new StreamReader(Server.MapPath("~/htmlTemplates/template1.html")))
+                using (StreamReader reader = new StreamReader(Server.MapPath(templatePath)))
                 {
                     body = reader.ReadToEnd();
                     body = body.Replace("{UserName}", RecipientName);
-                    body = body.Replace("{body}",tbxMailBody.Text);
+                    body = body.Replace("{body}", tbxMailBody.Text);
                 }
-                SqlCommand getSenderEmail = new SqlCommand("select email from tblUsers where ID=@ID",con);
-                getSenderEmail.Parameters.AddWithValue("@ID",Convert.ToInt32(Session["ID"].ToString()));
+                SqlCommand getSenderEmail = new SqlCommand("select email from tblUsers where ID='"+Session["ID"].ToString()+"'", con);
                 string senderEmail = getSenderEmail.ExecuteScalar().ToString();
-                sendEmail(senderEmail,body);
+                sendEmail(senderEmail, body);
+                SqlCommand insertMail = new SqlCommand("insert into tblSentMails(body,RecipientID,templateID) values(@body,@recipientID,@templateID)", con);
+                insertMail.Parameters.AddWithValue("@body",tbxMailBody.Text);
+                insertMail.Parameters.AddWithValue("@recipientID",recipientID);
+                insertMail.Parameters.AddWithValue("@templateID",Convert.ToInt32(templateID));
+                insertMail.ExecuteNonQuery();
                 message = "mail  was sent succesfuly";
+
             }
             else message = "Recipient's email Invalid check again or add a new one";
+            ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }
 
     }

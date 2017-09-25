@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/userPages/userLoggedIn.master" AutoEventWireup="true" CodeFile="composeEmail.aspx.cs" Inherits="userPages_compose" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentPlaceHolder" runat="Server">
-   
+
 
     <asp:Repeater runat="server" ID="htmlTemplateDisplay"></asp:Repeater>
     <div>
@@ -12,14 +12,9 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <asp:Label Text="Email" runat="server" ID="lblRecipientEmail"></asp:Label></td>
-                <td style="width: auto">
-                    <asp:TextBox ID="tbxRecipientEmail" placeholder="Enter Recipient's email here" runat="server" Width="562px"></asp:TextBox>
-                </td>
-                <td style="width: 416px">
-                    <asp:RequiredFieldValidator ID="RFValidatorEmail" runat="server" ControlToValidate="tbxRecipientEmail" ErrorMessage="mandatory field" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
+                <td><asp:Label Text="Email" runat="server" ID="lblRecipientEmail"></asp:Label></td>
+                <td style="width: auto"><asp:TextBox ID="tbxRecipientEmail" placeholder="Enter Recipient's email here" runat="server" Width="562px"></asp:TextBox></td>
+                <td style="width: 416px"><asp:RequiredFieldValidator ID="RFValidatorEmail" runat="server" ControlToValidate="tbxRecipientEmail" ErrorMessage="mandatory field" ForeColor="Red"></asp:RequiredFieldValidator></td>
             </tr>
             <tr>
                 <td>Subject</td>
@@ -37,6 +32,10 @@
                 <td style="width: 416px"><asp:RequiredFieldValidator ErrorMessage="Mandatory field" ForeColor="Red" ID="RFValidator" runat="server" ControlToValidate="tbxPassword"></asp:RequiredFieldValidator></td>
             </tr>
             <tr>
+                <td><asp:DropDownList ID="ddlTemplateSelector" runat="server" ></asp:DropDownList>
+            </td>
+            </tr>
+            <tr> 
                 <td colspan="3" style="text-align: center"><asp:Button ID="btnSend" Width="100px" Height="50px" Text="Send" runat="server" OnClick="btnSend_Click" /></td>
             </tr>
         </table>
