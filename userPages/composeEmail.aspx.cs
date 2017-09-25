@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,8 @@ public partial class userPages_compose : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["ID"] == null)
+            Response.Redirect("../Login.aspx");
         if (!IsPostBack)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
@@ -25,42 +28,62 @@ public partial class userPages_compose : System.Web.UI.Page
                 ddlTemplateSelector.DataValueField = "ID";
                 ddlTemplateSelector.DataBind();
             }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+            {
+                SqlDataAdapter da1 = new SqlDataAdapter("select categoryName,ID from tblCategory where userID='" + Session["ID"].ToString() + "'", con);
+                DataSet ds1 = new DataSet();
+                da1.Fill(ds1);
+                rptrCategory.DataSource = ds1;
+                rptrCategory.DataBind();
+                
+                
+                //SqlCommand com2 = new SqlCommand("select ID,name from tblRecipients where CategoryId='"+Eval("categoryName").ToString()+ "'", con);
+                //SqlCommand getCategoryID = new SqlCommand("select ID from tblCategory where categoryName='"+Eval("categoryName")+"'",con);
+                //string categoryID = getCategoryID.ExecuteScalar().ToString();
+                //Session["categoryID"] = categoryID;
+            }
+
         }
     }
     protected void btnSend_Click(object sender, EventArgs e)
     {
+        Page.Validate("mailCredentials");
+        if (!Page.IsValid)
+            return;
+
         string message;
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
 
             con.Open();
             string templateID = ddlTemplateSelector.SelectedItem.Value;
-            SqlCommand getTemplatePath = new SqlCommand("select filePath from tblTemplates where ID='" + templateID + "'", con);//fetching template id of the selected item
+            SqlCommand getTemplatePath = new SqlCommand("select filePath from tblTemplates where ID='" + templateID + "'", con);//fetching template path of the selected item
             string templatePath = getTemplatePath.ExecuteScalar().ToString();
-            SqlCommand getRecpientID = new SqlCommand("select ID from tblRecipients where email='"+tbxRecipientEmail.Text+"'",con);
+            SqlCommand getRecpientID = new SqlCommand("select ID from tblRecipients where email='" + tbxRecipientEmail.Text + "'", con);
             int recipientID = Convert.ToInt32(getRecpientID.ExecuteScalar().ToString());
-            SqlCommand checkEmail = new SqlCommand("select count(*) from tblRecipients where email='"+tbxRecipientEmail.Text+"'", con);//ensuring email of the recipient is already added
+            SqlCommand checkEmail = new SqlCommand("select count(*) from tblRecipients where email='" + tbxRecipientEmail.Text + "'", con);//ensuring email of the recipient is already added
             int temp = Convert.ToInt32(checkEmail.ExecuteScalar().ToString());
 
             if (temp == 1)
             {
-                SqlCommand selectName = new SqlCommand("select name from tblRecipients where email='"+tbxRecipientEmail.Text+"'", con);//fetching name from te
+                SqlCommand selectName = new SqlCommand("select name from tblRecipients where email='" + tbxRecipientEmail.Text + "'", con);//fetching name from te
                 string RecipientName = selectName.ExecuteScalar().ToString();
 
                 string body = string.Empty;
                 using (StreamReader reader = new StreamReader(Server.MapPath(templatePath)))
                 {
+                    //changing the value of the placeholders in template as per recipient's information
                     body = reader.ReadToEnd();
                     body = body.Replace("{UserName}", RecipientName);
                     body = body.Replace("{body}", tbxMailBody.Text);
                 }
-                SqlCommand getSenderEmail = new SqlCommand("select email from tblUsers where ID='"+Session["ID"].ToString()+"'", con);
+                SqlCommand getSenderEmail = new SqlCommand("select email from tblUsers where ID='" + Session["ID"].ToString() + "'", con);
                 string senderEmail = getSenderEmail.ExecuteScalar().ToString();
                 sendEmail(senderEmail, body);
                 SqlCommand insertMail = new SqlCommand("insert into tblSentMails(body,RecipientID,templateID) values(@body,@recipientID,@templateID)", con);
-                insertMail.Parameters.AddWithValue("@body",tbxMailBody.Text);
-                insertMail.Parameters.AddWithValue("@recipientID",recipientID);
-                insertMail.Parameters.AddWithValue("@templateID",Convert.ToInt32(templateID));
+                insertMail.Parameters.AddWithValue("@body", tbxMailBody.Text);//storing the sent mail in database
+                insertMail.Parameters.AddWithValue("@recipientID", recipientID);
+                insertMail.Parameters.AddWithValue("@templateID", Convert.ToInt32(templateID));
                 insertMail.ExecuteNonQuery();
                 message = "mail  was sent succesfuly";
 

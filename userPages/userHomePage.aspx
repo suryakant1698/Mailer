@@ -38,16 +38,16 @@
                 <h1>Add Recipients</h1>
             </caption>
             <tr>
-                <td style="width: 50%">
+                <td style="width: 18%; height: 30px;">
                     <asp:Label runat="server" ID="lblRecipientNAme" Text="Input Name"></asp:Label>
                 </td>
-                <td>
+                <td style="height: 30px">
                     <asp:TextBox ID="tbxRecipientName" placeholder="name" runat="server" ValidationGroup="Recipient"></asp:TextBox>
                     <asp:RequiredFieldValidator ValidationGroup="Recipient" ErrorMessage="mendatory field" ControlToValidate="tbxRecipientName" ForeColor="Red" runat="server"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td style="width: 18%">
                     <asp:Label runat="server" ID="lblRecipientEmail" Text="Input Email"></asp:Label>
                 </td>
                 <td>
@@ -57,14 +57,14 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td style="width: 18%">
                     <asp:Label runat="server" ID="lblRecipientCategory" Text="Input Cattegory name"></asp:Label>
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlCategoryName" runat="server"></asp:DropDownList></td>
             </tr>
             <tr>
-                <td>
+                <td style="width: 18%">
                     <asp:Button runat="server" Text="Submit" ID="RecipientAdder" OnClick="RecipientAdder_Click" />
                 </td>
             </tr>

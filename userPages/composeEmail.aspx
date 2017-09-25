@@ -12,31 +12,74 @@
                 </td>
             </tr>
             <tr>
-                <td><asp:Label Text="Email" runat="server" ID="lblRecipientEmail"></asp:Label></td>
-                <td style="width: auto"><asp:TextBox ID="tbxRecipientEmail" placeholder="Enter Recipient's email here" runat="server" Width="562px"></asp:TextBox></td>
-                <td style="width: 416px"><asp:RequiredFieldValidator ID="RFValidatorEmail" runat="server" ControlToValidate="tbxRecipientEmail" ErrorMessage="mandatory field" ForeColor="Red"></asp:RequiredFieldValidator></td>
+                <td style="width: 79px">
+
+                    <asp:Repeater ID="rptrCategory" runat="server">
+                        <ItemTemplate>
+                            
+
+                            <table style="width: 400px">
+                                <tr>
+                                    <td>
+                                        <asp:Label Width="50%" ID="lblCategoryName" Text='<%# Eval("categoryName") %>' runat="server"></asp:Label></td>
+                                    <td>
+                                        <asp:CheckBoxList ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID"></asp:CheckBoxList>
+                                        <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:RegistrationConnectionString %>' SelectCommand="SELECT [ID], [name] FROM [tblRecipients] WHERE ([CategoryId] = @CategoryId)">
+                                            <SelectParameters>
+                                                <asp:ControlParameter ControlID="hiddenfield" PropertyName="Value" Name="CategoryId"></asp:ControlParameter>
+                                            </SelectParameters>
+                                            <SelectParameters>
+                                               
+                                            </SelectParameters>
+                                            
+                                        </asp:SqlDataSource>
+                                    <asp:HiddenField runat="server" ID="hiddenfield" Value='<%# Eval("ID") %>' />
+                                    </td>
+                                </tr>
+                            </table>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </td>
             </tr>
             <tr>
-                <td>Subject</td>
-                <td><asp:TextBox ID="tbxSubject" runat="server" Width="558px"></asp:TextBox></td>
-                <td><asp:RequiredFieldValidator ID="RFValidatorSubject" runat="server" ControlToValidate="tbxSubject" ErrorMessage="Mandatory Field" ForeColor="Red"></asp:RequiredFieldValidator></td>
+                <td style="width: 79px">
+                    <asp:Label Text="Email" runat="server" ID="lblRecipientEmail"></asp:Label></td>
+                <td style="width: auto">
+                    <asp:TextBox ID="tbxRecipientEmail" placeholder="Enter Recipient's email here" runat="server" Width="562px"></asp:TextBox></td>
+                <td style="width: 416px">
+                    <asp:RequiredFieldValidator ID="RFValidatorEmail" runat="server" ControlToValidate="tbxRecipientEmail" ErrorMessage="mandatory field" ValidationGroup="mailCredentials" ForeColor="Red"></asp:RequiredFieldValidator></td>
             </tr>
             <tr>
-                <td><asp:Label ID="lblMailBody" runat="server" Text="Body"></asp:Label></td>
-                <td><asp:TextBox TextMode="MultiLine" Height="200px" placeholder="Enter mail's body here" runat="server" ID="tbxMailBody" Width="562px"></asp:TextBox></td>
-                <td style="width: 416px"><asp:RequiredFieldValidator ID="RFValidatorbody" ErrorMessage="mandatory field" ForeColor="red" runat="server" ControlToValidate="tbxMailBody"></asp:RequiredFieldValidator></td>
+                <td style="width: 79px">Subject</td>
+                <td>
+                    <asp:TextBox ID="tbxSubject" runat="server" placeholder="Enter subject here" Width="562px"></asp:TextBox></td>
+                <td>
+                    <asp:RequiredFieldValidator ID="RFValidatorSubject" runat="server" ControlToValidate="tbxSubject" ErrorMessage="Mandatory Field" ValidationGroup="mailCredentials" ForeColor="Red"></asp:RequiredFieldValidator></td>
             </tr>
             <tr>
-                <td>Password</td>
-                <td><asp:TextBox ID="tbxPassword" runat="server" placeholder="Enter your registered mail's password here" Width="561px"></asp:TextBox></td>
-                <td style="width: 416px"><asp:RequiredFieldValidator ErrorMessage="Mandatory field" ForeColor="Red" ID="RFValidator" runat="server" ControlToValidate="tbxPassword"></asp:RequiredFieldValidator></td>
+                <td style="width: 79px">
+                    <asp:Label ID="lblMailBody" runat="server" Text="Body"></asp:Label></td>
+                <td>
+                    <asp:TextBox TextMode="MultiLine" Height="200px" placeholder="Enter mail's body here" runat="server" ID="tbxMailBody" Width="562px"></asp:TextBox></td>
+                <td style="width: 416px">
+                    <asp:RequiredFieldValidator ID="RFValidatorbody" ErrorMessage="mandatory field" ForeColor="red" runat="server" ValidationGroup="mailCredentials" ControlToValidate="tbxMailBody"></asp:RequiredFieldValidator></td>
             </tr>
             <tr>
-                <td><asp:DropDownList ID="ddlTemplateSelector" runat="server" ></asp:DropDownList>
-            </td>
+                <td style="width: 79px">Password</td>
+                <td>
+                    <asp:TextBox ID="tbxPassword" TextMode="Password" runat="server" placeholder="Enter your registered mail's password here" Width="561px"></asp:TextBox></td>
+                <td style="width: 416px">
+                    <asp:RequiredFieldValidator ErrorMessage="Mandatory field" ForeColor="Red" ID="RFValidator" runat="server" ValidationGroup="mailCredentials" ControlToValidate="tbxPassword"></asp:RequiredFieldValidator></td>
             </tr>
-            <tr> 
-                <td colspan="3" style="text-align: center"><asp:Button ID="btnSend" Width="100px" Height="50px" Text="Send" runat="server" OnClick="btnSend_Click" /></td>
+            <tr>
+                <td style="width: 79px">Select Template</td>
+                <td>
+                    <asp:DropDownList ID="ddlTemplateSelector" Width="100px" runat="server"></asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center">
+                    <asp:Button ID="btnSend" Width="100px" Height="50px" Text="Send" runat="server" OnClick="btnSend_Click" /></td>
             </tr>
         </table>
 
