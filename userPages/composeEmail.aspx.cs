@@ -41,21 +41,20 @@ public partial class userPages_compose : System.Web.UI.Page
     }
     protected void btnSend_Click(object sender, EventArgs e)
     {
-        foreach(RepeaterItem i in rptrCategory.Items)
+        foreach (RepeaterItem i in rptrCategory.Items)
         {
             CheckBoxList cb = (CheckBoxList)i.FindControl("cblRecipients");
-           
-            foreach(ListItem li in cb.Items)
+
+            foreach (ListItem li in cb.Items)
             {
                 if (li.Selected)
-                    sendEmail1(li.Value);
-
+                    sendEmail(li.Value);
             }
         }
     }
-    protected void sendEmail1(string recipientID)
+    protected void sendEmail(string recipientID)
     {
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
             con.Open();
             SqlCommand getTemplatePath = new SqlCommand("select filePath from tblTemplates where Id='" + ddlTemplateSelector.SelectedItem.Value + "'", con);//fetching template path of the selected item
