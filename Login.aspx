@@ -30,10 +30,15 @@
                     <asp:TextBox ID="tbxPassword" CssClass="tbx" runat="server" placeholder="Enter Password Here" TextMode="Password"></asp:TextBox>
                 </div>
             </div>
-            <div>
-                <asp:Button Text="Log In" CssClass="btnLogin" runat="server" ID="btnLogin" OnClick="btnLogin_Click" />
-            </div>
-        </form>
+            <div style="width:400px">
+                <asp:Button Text="Log In" CssClass="btnLogin" runat="server" ID="btnLogin" OnClick="btnLogin_Click" />    
+                </div>
+
+                <div style="margin-top:10px">
+                              
+            <a href="register.aspx"><input class="btnLogin"  type="button" name="button" value="Register"/></a>
+        </div>
+                </form>
     </div>
 </body>
 </html>

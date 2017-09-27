@@ -31,6 +31,8 @@
                         <asp:RequiredFieldValidator ID="RFValidatorConPassword" runat="server" ControlToValidate="tbxComfrimPassword" ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CompareValidator ControlToValidate="tbxComfrimPassword" ControlToCompare="tbxPassword" ID="cmValidator" runat="server"></asp:CompareValidator>
                         <asp:Button ID="btnSubmit" CssClass="button" Text="submit" runat="server" OnClick="btnSubmit_Click" />
+                        
+           <a href="Login.aspx"><input class="button" type="button" name="button" value="Login"/></a>
                     </div>
                 </div>
         </div>
