@@ -18,7 +18,7 @@ public partial class practiceRegister : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+       
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
@@ -27,7 +27,7 @@ public partial class practiceRegister : System.Web.UI.Page
         using (SqlConnection con = new SqlConnection(CS))
         {
             //supplying values to the stored procedure which will return -1 or -2 if the username or email has already been used respectively else will store the data in table and retun scope_ID 
-            SqlCommand cmd = new SqlCommand("spCheckEmailUsername1", con);
+            SqlCommand cmd = new SqlCommand("spRegistration", con);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@username", tbxUsername.Text);
             cmd.Parameters.AddWithValue("email", tbxEmail.Text);
@@ -47,7 +47,7 @@ public partial class practiceRegister : System.Web.UI.Page
                 default:
                     message = "Registration successful";
                     SendActivationEmail(ID);
-                    Response.Redirect("register.aspx");
+                    tbxEmail.Text = "";tbxFullName.Text = "";tbxPassword.Text = "";tbxPassword.Text = "";tbxUsername.Text = "";tbxComfrimPassword.Text = "";
                     break;
             }
             ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);

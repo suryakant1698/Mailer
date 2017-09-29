@@ -20,13 +20,13 @@
                 </td>
                 <td>
                     <asp:TextBox runat="server" ID="tbxCategoryName" ValidationGroup="Category"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="RFVtbxCategoryName" ErrorMessage="mendatory field" ControlToValidate="tbxCategoryName" ForeColor="Red" runat="server" ValidationGroup="Category"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ID="RFVtbxCategoryName"  ErrorMessage="mendatory field" ControlToValidate="tbxCategoryName" ForeColor="Red" runat="server" ValidationGroup="Category"></asp:RequiredFieldValidator>
                 </td>
                 <asp:Label ID="lblCategoryID" runat="server"></asp:Label>
             </tr>
             <tr>
                 <td>
-                    <asp:Button ID="btnCategoryAdder" runat="server" Text="Submit" OnClick="btnCategoryAdder_Click" />"</td>
+                    <asp:Button ID="btnCategoryAdder" runat="server"  Text="Submit" OnClick="btnCategoryAdder_Click" />"</td>
             </tr>
         </table>
     </div>

@@ -13,27 +13,34 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
         string newActivationCode = Request.QueryString["activationCode"];
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+        if (newActivationCode == null) lblMessage.Text = "Wrong Path to enter the page";
+        else
         {
-            string checkValidSourece = "update tblUsers set Verification=1 where activationCode=@activationCode";
-            using (SqlCommand cmd = new SqlCommand(checkValidSourece))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
+                con.Open();
+                SqlCommand checkActivationCode = new SqlCommand("select count(*) from tblUsers where activationCode='" + newActivationCode + "' and Verification=1", con);
+                int temp = Convert.ToInt32(checkActivationCode.ExecuteScalar());
+                if (temp == 1) lblMessage.Text = "Your account is already verified you do not need to click this link again ";
+                else
                 {
+                    string checkValidSourece = "update tblUsers set Verification=1 where activationCode=@activationCode";
+                    SqlCommand cmd = new SqlCommand(checkValidSourece);
+                    SqlDataAdapter sda = new SqlDataAdapter();
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@activationCode", newActivationCode);
                     cmd.Connection = con;
-                    con.Open();
+                   
                     cmd.ExecuteNonQuery();
+                    lblMessage.Text = "Account activation succesful";
                 }
             }
-
         }
     }
-    protected void redirect(object sender, EventArgs e)
-    {
-        Response.Redirect("Login.aspx");
-    }
+
+protected void redirect(object sender, EventArgs e)
+{
+    Response.Redirect("Login.aspx");
+}
 }

@@ -15,9 +15,10 @@
                         <tr>
                             <td>
                                 <asp:Label Width="100%" ID="lblCategoryName" Text='<%# Eval("categoryName") %>' runat="server"></asp:Label></td>
-                            <td>
-                                <asp:CheckBoxList ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID" RepeatDirection="Horizontal" RepeatColumns="4"></asp:CheckBoxList>
-                                <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:RegistrationConnectionString %>' SelectCommand="SELECT [ID], [name] FROM [tblRecipients] WHERE ([CategoryId] = @CategoryId)">
+                            <td >
+                                <asp:CheckBoxList  ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID" RepeatDirection="Horizontal" RepeatColumns="4"></asp:CheckBoxList>
+                                <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:RegistrationConnectionString %>' SelectCommand="SELECT [ID], [name],[email] FROM [tblRecipients] WHERE ([CategoryId] = @CategoryId)">
+                                    
                                     <SelectParameters>
                                         <asp:ControlParameter ControlID="hiddenfield" PropertyName="Value" Name="CategoryId"></asp:ControlParameter>
                                     </SelectParameters>

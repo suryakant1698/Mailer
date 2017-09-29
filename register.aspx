@@ -21,8 +21,8 @@
                         <asp:RequiredFieldValidator ID="RFValidatorUsername" ControlToValidate="tbxUsername" runat="server" ErrorMessage="mendatory field" ForeColor="red"></asp:RequiredFieldValidator>
                         <asp:TextBox ID="tbxEmail" CssClass="textboxes" runat="server" placeholder="Email"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFValidatorEmail" runat="server" ControlToValidate="tbxEmail" ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegexvalidatorEmail" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$" runat="server" ControlToValidate="tbxEmail" ErrorMessage="Invalid Email" ForeColor="red"></asp:RegularExpressionValidator>
-                        <asp:TextBox ID="tbxFullName" CssClass="textboxes" runat="server" placeholder="Full Name"></asp:TextBox>
+                      <%--  <asp:RegularExpressionValidator ID="RegexvalidatorEmail" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w))+)$" runat="server" ControlToValidate="tbxEmail" ErrorMessage="Invalid Email" ForeColor="red"></asp:RegularExpressionValidator>
+                     --%>   <asp:TextBox ID="tbxFullName" CssClass="textboxes" runat="server" placeholder="Full Name"></asp:TextBox>
                         <asp:RequiredFieldValidator ControlToValidate="tbxFullName" ID="RFValidatorFullName" runat="server" ErrorMessage="mendatory field"></asp:RequiredFieldValidator>
                         <asp:TextBox ID="tbxPassword" CssClass="textboxes" runat="server" placeholder="Password" TextMode="Password"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFValidatorPassword" runat="server" ControlToValidate="tbxPassword" ErrorMessage="mendatory field" ForeColor="Red"></asp:RequiredFieldValidator>

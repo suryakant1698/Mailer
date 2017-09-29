@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <h1>Registration Succesful</h1>
+    <asp:Label ID="lblMessage" runat="server"></asp:Label>
         <br />
         <h1>click here to loginn</h1>
         <asp:Button ID="btnRedirect" runat="server" OnClick="redirect" Text="click" />

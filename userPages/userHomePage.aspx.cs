@@ -49,7 +49,8 @@ public partial class users : System.Web.UI.Page
                     message = "Category already registered";
                     break;
                 default:
-                    message = "Category AddedSuccesfuly//n Reload the page to see it's option in recipient adding portion";
+                    message = "Category AddedSuccesfuly";
+                    tbxCategoryName.Text = "";
                     break;
             }
             ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
@@ -79,6 +80,7 @@ public partial class users : System.Web.UI.Page
                 categoryAdder.Parameters.AddWithValue("@categoryID", CategoryID);
                 categoryAdder.ExecuteNonQuery();
                 message = "recipient added succesfuly";
+                tbxRecipientEmail.Text = "";tbxRecipientName.Text = "";
             }
             ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }

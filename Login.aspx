@@ -21,6 +21,7 @@
                 </div>
                 <div>
                     <asp:TextBox ID="tbxUsername" CssClass="tbx" runat="server" placeholder="Enter Username or email Here"></asp:TextBox>
+                   <asp:RequiredFieldValidator ID="RFValidatorUSer" runat="server" ControlToValidate="tbxUsername" ErrorMessage="*Mandatory Field" ForeColor="Red"></asp:RequiredFieldValidator>
                 </div>
                 <div>
                     <b>
@@ -28,6 +29,7 @@
                 </div>
                 <div>
                     <asp:TextBox ID="tbxPassword" CssClass="tbx" runat="server" placeholder="Enter Password Here" TextMode="Password"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RFValidatorPass" runat="server" ControlToValidate="tbxPassword" ErrorMessage="*Mandatory Field" ForeColor="Red"></asp:RequiredFieldValidator>
                 </div>
             </div>
             <div style="width:400px">
