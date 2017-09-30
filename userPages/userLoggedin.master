@@ -13,8 +13,9 @@
         <div class="topnav">
             <a class="active" href="userHomePage.aspx">Recipient Settings</a>
             <a href="composeEmail.aspx">Compose Email</a>
-            <a href="">Sent Emails</a>
+            <a href="sentMessages.aspx">Sent Emails</a>
             <a href="RecipientList.aspx">See Recipients List</a>
+            
             <asp:Button ID="btnLogout" runat="server" BackColor="#333" BorderWidth="0px" Text="Logout" ForeColor="white" OnClick="btnLogout_Click" />
                 
             
