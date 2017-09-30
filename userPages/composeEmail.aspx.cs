@@ -51,7 +51,7 @@ public partial class userPages_compose : System.Web.UI.Page
                             SqlCommand addToolTip = new SqlCommand("select email from tblRecipients where ID='" + li.Value + "'", con);
                             SqlDataReader rd = addToolTip.ExecuteReader();
                             while (rd.Read())
-                                tooltip += rd.ToString();
+                                tooltip=rd.ToString();
                             // li.Attributes.Add("title",tooltip);
                             li.Attributes["title"] = tooltip;
                         }
@@ -65,7 +65,9 @@ public partial class userPages_compose : System.Web.UI.Page
 
     protected void btnSend_Click(object sender, EventArgs e)
     {
-
+        Page.Validate("mailCredentials");
+        if (!Page.IsValid)
+            return;
         string recipientIDs = "";
         int recipientCount = 1;
         foreach (RepeaterItem i in rptrCategory.Items)

@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link rel="stylesheet" href="../css files/userMasterPage.css" /> 
-    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Gloria+Hallelujah|Lobster|Source+Code+Pro" rel="stylesheet" />
+     <title></title>
 </head>
 <body class="body">
 
@@ -13,7 +14,7 @@
             <a class="active" href="userHomePage.aspx">Recipient Settings</a>
             <a href="composeEmail.aspx">Compose Email</a>
             <a href="">Sent Emails</a>
-            <a href="">See Recipients List</a>
+            <a href="RecipientList.aspx">See Recipients List</a>
             <asp:Button ID="btnLogout" runat="server" BackColor="#333" BorderWidth="0px" Text="Logout" ForeColor="white" OnClick="btnLogout_Click" />
                 
             

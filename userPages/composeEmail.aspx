@@ -6,17 +6,17 @@
         <h1>Mail Sending Portion</h1>
        
         <div style="border-color: white; border:4px; margin-bottom:40px; ">
-           <table style="width: 600px; border: double solid; margin-left:7%;  border-color: white; background-color:cadetblue;">
-               <caption><b>Select Recipients</b></caption>
+           <table style="width: 600px; border: double solid; margin-left:7%;  border-color: white; background-color:cadetblue; text-transform:capitalize">
+               <caption style="font-family: 'Lobster', cursive; font-size:20px"><b>Select Recipients</b></caption>
              <asp:Repeater ID="rptrCategory" runat="server">
                 <ItemTemplate>
                     
                     
                         <tr>
-                            <td>
+                            <td style="font-family: 'Comfortaa', cursive;">
                                 <asp:Label Width="100%" ID="lblCategoryName" Text='<%# Eval("categoryName") %>' runat="server"></asp:Label></td>
-                            <td >
-                                <asp:CheckBoxList  ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID" RepeatDirection="Horizontal" RepeatColumns="4"></asp:CheckBoxList>
+                            <td style="font-family: 'Source Code Pro', monospace;" >
+                                <asp:CheckBoxList  ToolTip="" ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID" RepeatDirection="Horizontal" RepeatColumns="4"></asp:CheckBoxList>
                                 <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:RegistrationConnectionString %>' SelectCommand="SELECT [ID], [name],[email] FROM [tblRecipients] WHERE ([CategoryId] = @CategoryId)">
                                     
                                     <SelectParameters>
@@ -34,7 +34,7 @@
             </table>
         </div>
         <table style="width: 807px">
-            <caption><b>Enter Mail Credentials</b></caption>
+            <caption style="font-family: 'Lobster', cursive;"><b>Enter Mail Credentials</b></caption>
             <tr>
                 <td style="width: 165px; text-align: right">Subject</td>
                 <td>

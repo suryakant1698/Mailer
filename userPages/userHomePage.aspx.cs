@@ -12,18 +12,22 @@ public partial class users : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //all the checks have been done for the corresponding user only i.e.two users can enter the same recipient's info twice
-        if (!IsPostBack)
+        if (Session["ID"] == null) Response.Redirect("../Login.aspx");
+        else
         {
-            //adding the data to the drop down list
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+            if (!IsPostBack)
             {
-                string userID = Session["ID"].ToString();
-                SqlCommand com = new SqlCommand("select categoryName,ID from tblCategory where userID='" + userID + "'", con);
-                con.Open();
-                ddlCategoryName.DataSource = com.ExecuteReader();
-                ddlCategoryName.DataTextField = "categoryName";
-                ddlCategoryName.DataValueField = "ID";
-                ddlCategoryName.DataBind();
+                //adding the data to the drop down list
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+                {
+                    string userID = Session["ID"].ToString();
+                    SqlCommand com = new SqlCommand("select categoryName,ID from tblCategory where userID='" + userID + "'", con);
+                    con.Open();
+                    ddlCategoryName.DataSource = com.ExecuteReader();
+                    ddlCategoryName.DataTextField = "categoryName";
+                    ddlCategoryName.DataValueField = "ID";
+                    ddlCategoryName.DataBind();
+                }
             }
         }
     }
