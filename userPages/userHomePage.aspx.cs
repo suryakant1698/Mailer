@@ -62,32 +62,40 @@ public partial class users : System.Web.UI.Page
     }
     protected void RecipientAdder_Click(object sender, EventArgs e)
     {
+
         //adding recipient's information
         Page.Validate("Recipient");
         if (!Page.IsValid)
             return;
         string message;
-        string ID = Session["ID"].ToString();
-        string CS = ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(CS))
+        if (ddlCategoryName.SelectedItem == null) message = "Recipients are mandatory to have a category Please add atleast one category first";
+        else
         {
-            con.Open();
-            string CategoryID = ddlCategoryName.SelectedItem.Value;
-            SqlCommand checkRecipientEmail = new SqlCommand("select count(*) from tblRecipients where email='" + tbxRecipientEmail.Text + "' and categoryID='" + CategoryID + "' ", con);
-            int unvalidEmail = Convert.ToInt32(checkRecipientEmail.ExecuteScalar().ToString());//ensuring new email of recipient 
-            if (unvalidEmail == 1) message = " you already registered a user with this email names can repeat but emails cant";
-            else
+
+
+            string ID = Session["ID"].ToString();
+            string CS = ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
             {
-                SqlCommand categoryAdder = new SqlCommand("insert into tblRecipients(name,email,categoryID) values(@name,@email,@categoryID)", con);
-                categoryAdder.Parameters.AddWithValue("@name", tbxRecipientName.Text);
-                categoryAdder.Parameters.AddWithValue("@email", tbxRecipientEmail.Text);
-                categoryAdder.Parameters.AddWithValue("@categoryID", CategoryID);
-                categoryAdder.ExecuteNonQuery();
-                message = "recipient added succesfuly";
-                tbxRecipientEmail.Text = "";tbxRecipientName.Text = "";
+                con.Open();
+                string CategoryID = ddlCategoryName.SelectedItem.Value;
+                SqlCommand checkRecipientEmail = new SqlCommand("select count(*) from tblRecipients where email='" + tbxRecipientEmail.Text + "' and categoryID='" + CategoryID + "' ", con);
+                int unvalidEmail = Convert.ToInt32(checkRecipientEmail.ExecuteScalar().ToString());//ensuring new email of recipient 
+                if (unvalidEmail == 1) message = " you already registered a user with this email names can repeat but emails cant";
+                else
+                {
+                    SqlCommand categoryAdder = new SqlCommand("insert into tblRecipients(name,email,categoryID) values(@name,@email,@categoryID)", con);
+                    categoryAdder.Parameters.AddWithValue("@name", tbxRecipientName.Text);
+                    categoryAdder.Parameters.AddWithValue("@email", tbxRecipientEmail.Text);
+                    categoryAdder.Parameters.AddWithValue("@categoryID", CategoryID);
+                    categoryAdder.ExecuteNonQuery();
+                    message = "recipient added succesfuly";
+                    tbxRecipientEmail.Text = ""; tbxRecipientName.Text = "";
+                }
+             
             }
-            ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
         }
+        ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
     }
 }
 

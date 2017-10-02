@@ -14,7 +14,7 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         string newActivationCode = Request.QueryString["activationCode"];
-        if (newActivationCode == null) lblMessage.Text = "Wrong Path to enter the page";
+        if (newActivationCode == null) Response.Redirect("appHomePage.aspx");
         else
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
@@ -31,7 +31,7 @@ public partial class _Default : System.Web.UI.Page
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@activationCode", newActivationCode);
                     cmd.Connection = con;
-                   
+
                     cmd.ExecuteNonQuery();
                     lblMessage.Text = "Account activation succesful";
                 }

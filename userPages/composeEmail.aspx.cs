@@ -22,6 +22,7 @@ public partial class userPages_compose : System.Web.UI.Page
             {
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
                 {
+                    //adding the data to the dropdown list of the templates
                     SqlCommand com = new SqlCommand("select filePath,name from tblTemplates", con);
                     con.Open();
                     ddlTemplateSelector.DataSource = com.ExecuteReader();
@@ -29,36 +30,21 @@ public partial class userPages_compose : System.Web.UI.Page
                     ddlTemplateSelector.DataValueField = "filePath";
                     ddlTemplateSelector.DataBind();
                 }
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+                using (SqlConnection con3 = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
                 {
-                    SqlDataAdapter da1 = new SqlDataAdapter("select categoryName,ID from tblCategory where userID='" + Session["ID"].ToString() + "'", con);
-                    DataSet ds1 = new DataSet();
-                    da1.Fill(ds1);
-                    rptrCategory.DataSource = ds1;
-                    rptrCategory.DataBind();
-                }
-
-
-                string tooltip = string.Empty;
-                foreach (RepeaterItem i in rptrCategory.Items)
-                {
-                    CheckBoxList cb = (CheckBoxList)i.FindControl("cblRecipients");
-                    foreach (ListItem li in cb.Items)
+                    //adding data to the repeater
+                    using (SqlDataAdapter da1 = new SqlDataAdapter("select categoryName,ID from tblCategory where userID='" + Session["ID"].ToString() + "'", con3))
                     {
-                        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
-                        {
-                            con.Open();
-                            SqlCommand addToolTip = new SqlCommand("select email from tblRecipients where ID='" + li.Value + "'", con);
-                            SqlDataReader rd = addToolTip.ExecuteReader();
-                            while (rd.Read())
-                                tooltip=rd.ToString();
-                            // li.Attributes.Add("title",tooltip);
-                            li.Attributes["title"] = tooltip;
-                        }
+                        DataSet ds1 = new DataSet();
+                        da1.Fill(ds1);
+                        rptrCategory.DataSource = ds1;
+                        rptrCategory.DataBind();
                     }
+                }
+               
+
 
                 }
-            }
 
         }
     }
@@ -69,23 +55,24 @@ public partial class userPages_compose : System.Web.UI.Page
         if (!Page.IsValid)
             return;
         string recipientIDs = "";
-        int recipientCount = 1;
+       
         foreach (RepeaterItem i in rptrCategory.Items)
         {
-            CheckBoxList cb = (CheckBoxList)i.FindControl("cblRecipients");
-            foreach (ListItem li in cb.Items)
+            CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");
+            foreach (ListItem recipientID in cblRecipientNames.Items)
             {
-                if (li.Selected)
+                if (recipientID.Selected)
                 {
-                    sendEmail(Convert.ToInt32(li.Value));
-                    recipientIDs += li.Value;
+                    sendEmail(Convert.ToInt32(recipientID.Value));//passing the recipient's ID to the mailSending function
+                    recipientIDs += recipientID.Value;
                     recipientIDs += ",";
                 }
             }
-
+           
         }
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
+            //saving the mails's body in the database along with template and recipient IDs
             con.Open();
             SqlCommand getTemplateID = new SqlCommand("select ID from tblTemplates where filePath='" + ddlTemplateSelector.SelectedItem.Value + "'", con);
             int templateID = Convert.ToInt32(getTemplateID.ExecuteScalar());
@@ -105,6 +92,7 @@ public partial class userPages_compose : System.Web.UI.Page
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
+            //fetching the recipient's information by the ID and user's information
             con.Open();
             SqlCommand getRecipientName = new SqlCommand("select name from tblRecipients where ID='" + recipientID + "'", con);
             string recipientName = getRecipientName.ExecuteScalar().ToString();
@@ -136,6 +124,46 @@ public partial class userPages_compose : System.Web.UI.Page
                 smtp.Port = 587;
                 smtp.Send(mail);
             }
+        }
+    }
+
+    protected void btnTemplatePreview_Click(object sender, EventArgs e)
+    {
+        previewImage.ImageUrl="../images/avatara.png";
+    }
+
+
+
+    protected void cbSelectAll_CheckedChanged(object sender, EventArgs e)
+    {
+       
+        foreach (RepeaterItem i in rptrCategory.Items)
+        {
+            CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");
+            foreach (ListItem recipientID in cblRecipientNames.Items)
+            {
+                recipientID.Selected = cbSelectAll.Checked;
+             
+
+            }
+
+        }
+    }
+
+    protected void cbCategory_CheckedChanged(object sender, EventArgs e)
+    {
+
+        foreach (RepeaterItem i in rptrCategory.Items)
+        {
+            CheckBox cbCategory = (CheckBox)i.FindControl("cbCategory");
+            CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");
+            foreach (ListItem recipientID in cblRecipientNames.Items)
+            {
+                recipientID.Selected = cbCategory.Checked;
+
+                
+            }
+
         }
     }
 }

@@ -13,10 +13,11 @@
                 <polygon points="150,50 150,240 450,240 450,50" fill="#eee" />
                 <polygon points="150,50 300,180 450,50" fill="grey" />
             </svg>
+            </div>
             <div class="box">
-           <a href="Login.aspx"><input class="login" type="button" name="button" value="Login"/></a>
+        <a href="Login.aspx"><input class="login" type="button" name="button" value="Login" /></a>
      	<a href="register.aspx"><input class="register"  type="button" name="button" value="Register"/></a>
- 
+ </div>
         </form>
 </body>
 </html>
