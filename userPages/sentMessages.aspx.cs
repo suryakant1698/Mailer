@@ -13,7 +13,7 @@ public partial class userPages_sentMessages : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["ID"] == null)
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../appHomePage.aspx");
         else
         {
             if (!IsPostBack)

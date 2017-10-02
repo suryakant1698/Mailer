@@ -13,12 +13,11 @@
                 <asp:Repeater ID="rptrCategory" runat="server">
                 <ItemTemplate>
                     
-                        <tr>
+                        <tr style="border-bottom:solid;border-width:2px; border-color:green">
                             
-                            <td style="font-family: 'Comfortaa', cursive;">
-                                <asp:Label Width="100%" ID="lblCategoryName" Text='<%# Eval("categoryName") %>' runat="server"></asp:Label></td>
-                            <td><asp:CheckBox ID="cbCategory" runat="server" OnCheckedChanged="cbCategory_CheckedChanged" AutoPostBack="true" Text="select this category" /></td>
-                            <td style="font-family: 'Source Code Pro', monospace;" >
+                            
+                                <td style="border-bottom:solid;border-width:2px; border-color:grey"><asp:CheckBox ID="cbCategory" runat="server" OnCheckedChanged="cbCategory_CheckedChanged" AutoPostBack="true" Text='<%# Eval("categoryName") %>' /></td>
+                            <td style="font-family: 'Source Code Pro', monospace; border-bottom:solid;border-width:2px; border-color:grey " >
                                 
                                 <asp:CheckBoxList  ToolTip="" ID="cblRecipients" runat="server" DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="ID" RepeatDirection="Horizontal" RepeatColumns="4"></asp:CheckBoxList>
                                 <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:RegistrationConnectionString %>' SelectCommand="SELECT [ID], [name],[email] FROM [tblRecipients] WHERE ([CategoryId] = @CategoryId)">
@@ -39,6 +38,15 @@
         </div>
         <table style="width: 807px">
             <caption style="font-family: 'Lobster', cursive;"><b>Enter Mail Credentials</b></caption>
+            <tr>
+                <td style="text-align: right; width: 165px">Select Template</td>
+                <td>
+                    <asp:DropDownList ID="ddlTemplateSelector" Width="100px" runat="server" style="margin-left: 0px"></asp:DropDownList>
+                    <asp:Button ID="btnTemplatePreview" runat="server" Text="Preview" OnClick="btnTemplatePreview_Click" />
+                   
+                </td>
+            </tr>
+
             <tr>
                 <td style="width: 165px; text-align: right">Subject</td>
                 <td>
@@ -61,15 +69,7 @@
                 <td style="width: 416px">
                     <asp:RequiredFieldValidator ErrorMessage="*Mandatory field" ForeColor="Red" ID="RFValidator" runat="server" ValidationGroup="mailCredentials" ControlToValidate="tbxPassword"></asp:RequiredFieldValidator></td>
             </tr>
-            <tr>
-                <td style="text-align: right; width: 165px">Select Template</td>
-                <td>
-                    <asp:DropDownList ID="ddlTemplateSelector" Width="100px" runat="server"></asp:DropDownList>
-                    <asp:Button ID="btnTemplatePreview" runat="server" Text="Preview" OnClick="btnTemplatePreview_Click" />
-                    <asp:Image ID="previewImage" runat="server" Width="100px" Height="100px" />
-                </td>
-            </tr>
-            <tr>
+                        <tr>
                 <td colspan="3" style="text-align: center">
                     <asp:Button ID="btnSend" Width="100px" Height="50px" Text="Send" runat="server" OnClick="btnSend_Click" /></td>
             </tr>

@@ -12,7 +12,7 @@ public partial class users : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //all the checks have been done for the corresponding user only i.e.two users can enter the same recipient's info twice
-        if (Session["ID"] == null) Response.Redirect("../Login.aspx");
+        if (Session["ID"] == null) Response.Redirect("../appHomePage.aspx");
         else
         {
             if (!IsPostBack)

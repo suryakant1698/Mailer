@@ -17,7 +17,7 @@ public partial class userPages_RecipientList : System.Web.UI.Page
     {
 
         if (Session["ID"] == null)
-            Response.Redirect("../Login.asspx");
+            Response.Redirect("../appHomePage.asspx");
         else
         {
             if (!IsPostBack)

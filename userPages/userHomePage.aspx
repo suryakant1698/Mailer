@@ -19,21 +19,21 @@
                     <asp:Label ID="lblCategoryAdder" runat="server" Text="Category"></asp:Label>
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbxCategoryName" ValidationGroup="Category"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="tbxCategoryName" ValidationGroup="Category" placeholder="Enter Category Name"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RFVtbxCategoryName"  ErrorMessage="*Mandatory field" ControlToValidate="tbxCategoryName" ForeColor="Red" runat="server" ValidationGroup="Category"></asp:RequiredFieldValidator>
                 </td>
                 <asp:Label ID="lblCategoryID" runat="server"></asp:Label>
             </tr>
             <tr>
                 <td>
-                    <asp:Button ID="btnCategoryAdder" runat="server"  Text="Submit" OnClick="btnCategoryAdder_Click" />"</td>
+                    <asp:Button ID="btnCategoryAdder" runat="server"  Text="Submit" OnClick="btnCategoryAdder_Click" /></td>
             </tr>
         </table>
     </div>
 
 
     <div>
-        <table style="width: 80%; al">
+        <table style="width: 80%; ">
             <caption>
                 <h1>Add Recipients</h1>
             </caption>
@@ -51,8 +51,8 @@
                     <asp:Label runat="server" ID="lblRecipientEmail" Text="Input Email"></asp:Label>
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbxRecipientEmail" ValidationGroup="Recipient"></asp:TextBox>
-                    <asp:RequiredFieldValidator ValidationGroup="Recipient" ErrorMessage="*Mandatory field" ControlToValidate="tbxRecipientEmail" ForeColor="Red" runat="server"></asp:RequiredFieldValidator>
+                    <asp:TextBox runat="server"  ID="tbxRecipientEmail"  ValidationGroup="Recipient" placecholder="Enter Email"></asp:TextBox>
+                    <asp:RequiredFieldValidator  ValidationGroup="Recipient"  ErrorMessage="*Mandatory field" ControlToValidate="tbxRecipientEmail" ForeColor="Red" runat="server"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="RegexEmail" ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$" runat="server" ControlToValidate="tbxRecipientEmail" ErrorMessage="*Invalid Email" ForeColor="red"></asp:RegularExpressionValidator>
                 </td>
             </tr>

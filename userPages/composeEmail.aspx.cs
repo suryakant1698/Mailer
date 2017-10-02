@@ -15,7 +15,7 @@ public partial class userPages_compose : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["ID"] == null) Response.Redirect("../Login.aspx");
+        if (Session["ID"] == null) Response.Redirect("../appHomePage.aspx");
         else
         {
             if (!IsPostBack)
@@ -41,10 +41,27 @@ public partial class userPages_compose : System.Web.UI.Page
                         rptrCategory.DataBind();
                     }
                 }
-               
+                //using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
+                //{
+                //    con.Open();
+                //    foreach (RepeaterItem i in rptrCategory.Items)
+                //    {
+                //        CheckBox cbCategory = (CheckBox)i.FindControl("cbCategory");
+                //        HiddenField hiddenfield = (HiddenField)i.FindControl("hiddenfield");
+                //        CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");                     
+                //        SqlCommand getCategoryID = new SqlCommand("select ID from tblCategory where categoryName='" + cbCategory.Text + "' and UserId='" + Session["ID"].ToString() + "'", con);
+                //        int categoryID = Convert.ToInt32(getCategoryID.ExecuteScalar());//fetching the categoryId by name
+                //        foreach (ListItem recipientID in cblRecipientNames.Items)
+                //        {
+                //            SqlCommand getRecipientInfo = new SqlCommand("select name,ID from tblRecipients where CategoryId='"+hiddenfield.Value+ "'", con);
+                //            cblRecipientNames.DataSource = getRecipientInfo.ExecuteReader();
+                //            cblRecipientNames.DataBind();
+                           
+                //        }
+                //    }
 
-
-                }
+                //}
+            }
 
         }
     }
@@ -55,7 +72,7 @@ public partial class userPages_compose : System.Web.UI.Page
         if (!Page.IsValid)
             return;
         string recipientIDs = "";
-       
+
         foreach (RepeaterItem i in rptrCategory.Items)
         {
             CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");
@@ -68,7 +85,7 @@ public partial class userPages_compose : System.Web.UI.Page
                     recipientIDs += ",";
                 }
             }
-           
+
         }
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["RegistrationConnectionString"].ConnectionString))
         {
@@ -107,8 +124,13 @@ public partial class userPages_compose : System.Web.UI.Page
             {
                 //changing the value of the placeholders in template as per recipient's information
                 body = reader.ReadToEnd();
-                body = body.Replace("{UserName}", recipientName);
+                body = body.Replace("{RecipientName}", recipientName);
                 body = body.Replace("{body}", tbxMailBody.Text);
+                body = body.Replace("Return", null);
+                body = body.Replace("border-color:green", null);
+                body = body.Replace("background-color:gray", null);
+                body = body.Replace("border:solid",null);
+            
             }
             using (MailMessage mail = new MailMessage(userEmail, recipientEmail))
             {
@@ -129,24 +151,27 @@ public partial class userPages_compose : System.Web.UI.Page
 
     protected void btnTemplatePreview_Click(object sender, EventArgs e)
     {
-        previewImage.ImageUrl="../images/avatara.png";
+        Response.Redirect(ddlTemplateSelector.SelectedItem.Value);
     }
 
 
 
     protected void cbSelectAll_CheckedChanged(object sender, EventArgs e)
     {
-       
+        
+
         foreach (RepeaterItem i in rptrCategory.Items)
         {
+            CheckBox cbCategory = (CheckBox)i.FindControl("cbCategory");
+
+            cbCategory.Checked = cbSelectAll.Checked;
             CheckBoxList cblRecipientNames = (CheckBoxList)i.FindControl("cblRecipients");
             foreach (ListItem recipientID in cblRecipientNames.Items)
             {
-                recipientID.Selected = cbSelectAll.Checked;
-             
+                recipientID.Selected = cbCategory.Checked;
+
 
             }
-
         }
     }
 
@@ -161,7 +186,7 @@ public partial class userPages_compose : System.Web.UI.Page
             {
                 recipientID.Selected = cbCategory.Checked;
 
-                
+
             }
 
         }

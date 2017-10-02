@@ -19,7 +19,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
 
         Session["ID"] = null;
-        Response.Redirect("../Login.aspx");
+        Response.Redirect("../appHomePage.aspx");
     }
 
    
